@@ -14,9 +14,7 @@ This repository contains a complete **Campus Area Network (CAN)** implementation
 
 ## Topology
 
-**Path:** `docs/topology/campus-topology.png`
-
-![Campus Topology](docs/topology/campus-topology.png)
+![Campus Topology](docs/topology/topology.png)
 
 ---
 
