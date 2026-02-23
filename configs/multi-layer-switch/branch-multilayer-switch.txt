@@ -1,0 +1,22 @@
+
+enable
+configure terminal
+
+! Trunk to Branch Router
+interface gig1/0/1
+ switchport mode trunk
+exit
+
+! Access ports to downstream switches
+interface gig1/0/2
+ switchport mode access
+ switchport access vlan 100
+exit
+
+interface gig1/0/3
+ switchport mode access
+ switchport access vlan 90
+exit
+
+end
+write memory
