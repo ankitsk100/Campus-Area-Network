@@ -1,0 +1,50 @@
+
+enable
+configure terminal
+
+! WAN to Main
+interface se0/1/0
+ ip address 10.10.10.2 255.255.255.252
+ no shutdown
+exit
+
+! Trunk to Branch Multilayer Switch (Router-on-a-Stick)
+interface gig0/0
+ no shutdown
+exit
+
+interface gig0/0.100
+ encapsulation dot1q 100
+ ip address 192.168.10.1 255.255.255.0
+exit
+
+interface gig0/0.90
+ encapsulation dot1q 90
+ ip address 192.168.9.1 255.255.255.0
+exit
+
+! DHCP
+service dhcp
+
+ip dhcp pool staff-pool
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 192.168.10.1
+exit
+
+ip dhcp pool branch-lab-pool
+ network 192.168.9.0 255.255.255.0
+ default-router 192.168.9.1
+ dns-server 192.168.9.1
+exit
+
+! RIP v2
+router rip
+ version 2
+ network 10.10.10.0
+ network 192.168.9.0
+ network 192.168.10.0
+exit
+
+end
+write memory
