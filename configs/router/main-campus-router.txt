@@ -1,0 +1,129 @@
+
+enable
+configure terminal
+
+! WAN to Cloud
+interface se0/1/0
+ ip address 10.10.10.5 255.255.255.252
+ no shutdown
+exit
+
+! WAN to Branch
+interface se0/1/1
+ ip address 10.10.10.1 255.255.255.252
+ no shutdown
+exit
+
+! Trunk to Main Campus Multilayer Switch (Router-on-a-Stick)
+interface gig0/0
+ no shutdown
+exit
+
+interface gig0/0.10
+ encapsulation dot1q 10
+ ip address 192.168.1.1 255.255.255.0
+exit
+
+interface gig0/0.20
+ encapsulation dot1q 20
+ ip address 192.168.2.1 255.255.255.0
+exit
+
+interface gig0/0.30
+ encapsulation dot1q 30
+ ip address 192.168.3.1 255.255.255.0
+exit
+
+interface gig0/0.40
+ encapsulation dot1q 40
+ ip address 192.168.4.1 255.255.255.0
+exit
+
+interface gig0/0.50
+ encapsulation dot1q 50
+ ip address 192.168.5.1 255.255.255.0
+exit
+
+interface gig0/0.60
+ encapsulation dot1q 60
+ ip address 192.168.6.1 255.255.255.0
+exit
+
+interface gig0/0.70
+ encapsulation dot1q 70
+ ip address 192.168.7.1 255.255.255.0
+exit
+
+interface gig0/0.80
+ encapsulation dot1q 80
+ ip address 192.168.8.1 255.255.255.0
+exit
+
+! DHCP (per VLAN)
+service dhcp
+
+ip dhcp pool admin-pool
+ network 192.168.1.0 255.255.255.0
+ default-router 192.168.1.1
+ dns-server 192.168.1.1
+exit
+
+ip dhcp pool hr-pool
+ network 192.168.2.0 255.255.255.0
+ default-router 192.168.2.1
+ dns-server 192.168.2.1
+exit
+
+ip dhcp pool finance-pool
+ network 192.168.3.0 255.255.255.0
+ default-router 192.168.3.1
+ dns-server 192.168.3.1
+exit
+
+ip dhcp pool business-pool
+ network 192.168.4.0 255.255.255.0
+ default-router 192.168.4.1
+ dns-server 192.168.4.1
+exit
+
+ip dhcp pool ec-pool
+ network 192.168.5.0 255.255.255.0
+ default-router 192.168.5.1
+ dns-server 192.168.5.1
+exit
+
+ip dhcp pool ad-pool
+ network 192.168.6.0 255.255.255.0
+ default-router 192.168.6.1
+ dns-server 192.168.6.1
+exit
+
+ip dhcp pool lab-pool
+ network 192.168.7.0 255.255.255.0
+ default-router 192.168.7.1
+ dns-server 192.168.7.1
+exit
+
+ip dhcp pool it-pool
+ network 192.168.8.0 255.255.255.0
+ default-router 192.168.8.1
+ dns-server 192.168.8.1
+exit
+
+! RIP v2
+router rip
+ version 2
+ network 10.10.10.0
+ network 10.10.10.4
+ network 192.168.1.0
+ network 192.168.2.0
+ network 192.168.3.0
+ network 192.168.4.0
+ network 192.168.5.0
+ network 192.168.6.0
+ network 192.168.7.0
+ network 192.168.8.0
+exit
+
+end
+write memory
