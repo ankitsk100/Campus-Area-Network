@@ -1,0 +1,25 @@
+
+enable
+configure terminal
+
+! WAN to Main
+interface se0/1/0
+ ip address 10.10.10.6 255.255.255.252
+ no shutdown
+exit
+
+! Link to Email Server Network
+interface gig0/0
+ ip address 20.0.0.1 255.255.255.252
+ no shutdown
+exit
+
+! RIP v2
+router rip
+ version 2
+ network 10.10.10.4
+ network 20.0.0.0
+exit
+
+end
+write memory
